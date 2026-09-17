@@ -1,1 +1,76 @@
+> DB::table('auditoria_aut_dossie') ->orderBy('id', 'desc') ->limit(10) ->get()                                                                                                                    
+= Illuminate\Support\Collection {#4470
+    all: [
+      {#4445exit
 
+        +"id": "429",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 22 | Título: DA PRESCRIÇÃO DECENAL",
+        +"created_at": "2026-09-15 17:03:51.037",
+        +"updated_at": "2026-09-15 17:03:51.037",
+      },
+      {#4468
+        +"id": "428",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 20 | Título: DA PRESCRIÇÃO TRIENAL",
+        +"created_at": "2026-09-15 17:03:10.567",
+        +"updated_at": "2026-09-15 17:03:10.567",
+      },
+      {#4488
+        +"id": "427",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 21 | Título: DA PRESCRIÇÃO QUINQUENAL",
+        +"created_at": "2026-09-15 17:02:34.283",
+        +"updated_at": "2026-09-15 17:02:34.283",
+      },
+      {#4451
+        +"id": "426",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 22 | Título: DA PRESCRIÇÃO DECENAL",
+        +"created_at": "2026-09-15 14:49:13.910",
+        +"updated_at": "2026-09-15 14:49:13.910",
+      },
+      {#4450
+        +"id": "425",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 21 | Título: DA PRESCRIÇÃO QUINQUENAL",
+        +"created_at": "2026-09-15 14:46:25.137",
+        +"updated_at": "2026-09-15 14:46:25.137",
+      },
+      {#4465
+        +"id": "424",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 20 | Título: DA PRESCRIÇÃO TRIENAL",
+        +"created_at": "2026-09-15 14:44:24.803",
+        +"updated_at": "2026-09-15 14:44:24.803",
+      },
+      {#4448
+        +"id": "423",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 20 | Título: DA PRESCRIÇÃO TRIENAL",
+        +"created_at": "2026-09-15 14:43:42.883",
+        +"updated_at": "2026-09-15 14:43:42.883",
+      },
+      {#4466
+        +"id": "422",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 39 | Título: DA REGULARIDADE DA CONTRATAÇÃO E DA INEXISTÊNCIA DE VENDA CASADA - Lei nº 15.040/2024",
+        +"created_at": "2026-09-11 17:44:56.217",
+        +"updated_at": "2026-09-11 17:44:56.217",
+      },
+      {#4485
+        +"id": "421",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 40 | Título: DA REGULARIDADE DA CONTRATAÇÃO E DA INEXISTÊNCIA DE VENDA CASADA - Art. 758 e 759 do Código Civil",
+        +"created_at": "2026-09-11 17:43:45.213",
+        +"updated_at": "2026-09-11 17:43:45.213",
+      },
+      {#4486
+        +"id": "420",
+        +"nome_usuario_editor": "254 - Gabriel Martins",
+        +"acao_edicao": "[ID: 254] Gabriel Martins EDITOU a Tese Nº 41 | Título: DA REGULARIDADE DA CONTRATAÇÃO E DA INEXISTÊNCIA DE VENDA CASADA.",
+        +"created_at": "2026-09-11 17:42:38.477",
+        +"updated_at": "2026-09-11 17:42:38.477",
+      },
+    ],
+  }
