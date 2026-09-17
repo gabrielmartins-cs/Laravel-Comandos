@@ -1,1 +1,376 @@
+app\Models\ConfiguracaoGeralInteligenciaArtificial.php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ConfiguracaoGeralInteligenciaArtificial extends Model
+{
+    use HasFactory;
+
+    protected $table = 'prompt_ia';
+
+    protected $fillable = [
+        'prompt',
+        'instrucao',
+        'saida',
+        'empresa',
+        'identificador'
+    ];
+
+
+    public static function criarPrompt(array $dados, $user = null)
+    {
+        return self::create([
+            'prompt'        => $dados['prompt'] ?? null,
+            'instrucao'     => $dados['instrucao'] ?? null,
+            'saida'         => $dados['saida'] ?? null,
+            'empresa'       => $dados['empresa'] ?? null,
+            'identificador' => $dados['identificador'] ?? null,
+        ]);
+    }
+
+
+    public static function AtualizarPrompt(array $dados, $user = null)
+    {
+
+        $prompt = null;
+
+        if (!empty($dados['id'])) {
+            $prompt = self::find($dados['id']);
+        } elseif (!empty($dados['identificador'])) {
+            $prompt = self::where('identificador', $dados['identificador'])->first();
+        }
+
+        if (!$prompt) {
+            return false;
+        }
+
+        $prompt->update(array_filter([
+            'prompt'        => $dados['prompt'] ?? null,
+            'instrucao'     => $dados['instrucao'] ?? null,
+            'saida'         => $dados['saida'] ?? null,
+            'empresa'       => $dados['empresa'] ?? null,
+            'identificador' => $dados['identificador'] ?? null,
+        ], fn($value) => !is_null($value)));
+
+        return $prompt;
+    }
+
+
+    public static function ExcluirPrompt(array $dados, $user = null)
+    {
+        if (!empty($dados['id'])) {
+            return self::destroy($dados['id']);
+        }
+
+        if (!empty($dados['identificador'])) {
+            return self::where('identificador', $dados['identificador'])->delete();
+        }
+
+        return false;
+    }
+}
+
+
+ESSE É O BANCO DE DADOS: > DB::table('prompt_ia')->get();                                                                                                                                           
+= Illuminate\Support\Collection {#4454
+    all: [
+      {#4453
+        +"id": "5",
+        +"prompt": """
+          Analise os documentos processuais (Petição Inicial e Subsídio). Retorne ESTRITAMENTE um objeto JSON válido, sem textos antes ou depois, preenchendo TODOS os campos conforme as chaves abaixo:\n
+          \n
+          {\n
+          {descricao_campos}\n
+          }\n
+          \n
+          === DADOS DO PROCESSO ===\n
+          Data de Distribuição: {data_distribuicao}\n
+          \n
+          === SUBSÍDIO CLIENTE ===\n
+          {texto_subsidio}\n
+          \n
+          === PETIÇÃO INICIAL ===\n
+          {texto_peticao}
+          """,
+        +"instrucao": "Você é um advogado analítico. Sua função é ler documentos longos e extrair dados cruciais com precisão máxima. Retorne APENAS um objeto JSON.",
+        +"saida": "Retorne APENAS um objeto JSON válido conforme a estrutura especificada.",
+        +"empresa": "CVP",
+        +"identificador": "processamentoIa_fatos",
+        +"created_at": "2026-09-16 17:36:35.163",
+        +"updated_at": "2026-09-16 17:36:35.163",
+      },
+      {#4458
+        +"id": "6",
+        +"prompt": """
+          Atue como o CÉREBRO PRINCIPAL da defesa jurídica em contestação civil e securitária.\n
+          Abaixo, forneço os FATOS DO PROCESSO extraídos e a lista completa de teses disponíveis no sistema:\n
+          \n
+          === FATOS DO PROCESSO ===\n
+          {fatos_processo}\n
+          \n
+          === CATÁLOGO DE TESES DISPONÍVEIS ===\n
+          {teses_para_avaliacao}\n
+          \n
+          === REGRAS DE SELEÇÃO E ELEGIBILIDADE ===\n
+          1. REGULARIDADE DA CONTRATAÇÃO: Se o autor alegar cobrança indevida, venda casada ou ausência de contratação, SELECIONE OBRIGATORIAMENTE a tese 'DA REGULARIDADE DA CONTRATAÇÃO E DA INEXISTÊNCIA DE VENDA CASADA'.\n
+          2. PRESCRIÇÃO / DECADÊNCIA: Se 'ha_certificado_prescrito' for TRUE ou se 'maior_tempo_decorrido_anos' for maior ou igual a 1, SELECIONE OBRIGATORIAMENTE as teses referentes a PRESCRIÇÃO (ex: Prescrição Trienal/Anual). Avalie cada certificado da lista 'certificados_detalhados'.\n
+          3. RESTITUIÇÃO EM DOBRO: Se houver pedido de devolução/restituição em dobro ou repetição de indébito, SELECIONE OBRIGATORIAMENTE a tese 'DA AUSÊNCIA DE MÁ-FÊ DA SEGURADORA - DESCABIMENTO DA RESTITUIÇÃO EM DOBRO'.\n
+          4. AUSÊNCIA DE PRETENSÃO RESISTIDA: Se 'ausencia_contato_adm' for TRUE ou 'cancelamento_incompleto' for TRUE, SELECIONE OBRIGATORIAMENTE a tese 'DA ATUAÇÃO ADMINISTRATIVA E AUSÊNCIA DE RESISTÊNCIA DA SEGURADORA' (ou nome equivalente no catálogo).\n
+          5. CANCELAMENTO / RESTITUIÇÃO ADMINISTRATIVA: Se 'cancelamento_realizado' for TRUE, SELECIONE OBRIGATORIAMENTE a tese 'DO CANCELAMENTO E DA RESTITUIÇÃO ADMINISTRATIVA'.\n
+          6. ESPECIALIDADE / CDC: Em QUALQUER ação que envolva contratos de seguro regidos pela SUSEP/CNSP ou alegações de CDC, SELECIONE OBRIGATORIAMENTE a tese 'DA IMPOSSIBILIDADE DA INCIDÊNCIA DO CÓDIGO DE DEFESA DO CONSUMIDOR EM RAZÃO DO PRINCÍPIO DA ESPECIALIDADE'.\n
+          7. COAÇÃO (BLOQUEIO RIGOROSO): NUNCA selecione a tese 'DA IMPUGNAÇÃO À ALEGAÇÃO DE COAÇÃO' a menos que 'alega_coacao' seja estritamente TRUE nos fatos.\n
+          8. INGRESSO ESPONTÂNEO CAIXA VIDA: Se 'empresa_responsavel_caixa_vida' === true E 'caixa_vida_no_polo_passivo' === false, SELECIONE OBRIGATORIAMENTE a tese 'INGRESSO ESPONTÂNEO NA LIDE PELA CAIXA VIDA E PREVIDÊNCIA S.A.'. BLOQUEIO ABSOLUTO: Se 'caixa_vida_no_polo_passivo' === true, É PROIBIDO selecionar esta tese.
+          """,
+        +"instrucao": "Você é um advogado sênior. Selecione APENAS os IDs das teses aplicáveis ao caso. Retorne APENAS o JSON.",
+        +"saida": "Retorne ESTRITAMENTE um objeto JSON no formato: { "teses_validadas": [id1, id2, id3...] } contendo os IDs numéricos das teses aplicáveis ao caso.",
+        +"empresa": "CVP",
+        +"identificador": "processamentoIa_teses",
+        +"created_at": "2026-09-16 17:36:43.287",
+        +"updated_at": "2026-09-16 17:36:43.287",
+      },
+      {#4443
+        +"id": "7",
+        +"prompt": """
+          Atue como um Advogado Sênior Especialista em Processo Civil.\n
+          Sua ÚNICA tarefa é reordenar a lista de IDs abaixo na SEQUÊNCIA LÓGICA E PERSUASIVA CORRETA para uma CONTESTAÇÃO.\n
+          \n
+          === REGRAS DE PESO E HIERARQUIA STRICTA ===\n
+          Ordene as teses atribuindo a cada uma a seguinte ordem de preferência rígida:\n
+          \n
+          [PRIORIDADE 1 - PRELIMINARES E PREJUDICIAIS]\n
+          - Incompetência, Inépcia da Inicial, Ilegitimidade, Ausência de Interesse Processual, Impugnação à Gratuidade, Prescrição, Decadência.\n
+          \n
+          [PRIORIDADE 2 - MÉRITO: REGULARIDADE E SUBSISTÊNCIA CONTRATUAL (Ataque Primário)]\n
+          - Regularidade da Contratação, Inexistência de Venda Casada, Validade do Negócio Jurídico, Exercício Regular do Direito.\n
+          \n
+          [PRIORIDADE 3 - MÉRITO: SANÇÃO E BOA-FÉ (Ataque Secundário)]\n
+          - Ausência de Má-Fê da Seguradora, Descabimento da Devolução em Dobro, Engano Justificável.\n
+          \n
+          [PRIORIDADE 4 - MÉRITO: SITO/FATOS EXTINTIVOS E NORMAS DE REGÊNCIA]\n
+          - Cancelamento e Restituição Administrativa, Especialidade do Contrato de Seguro vs CDC, Ônus da Prova.\n
+          \n
+          [PRIORIDADE 5 - MÉRITO: DANOS EXTRAPATRIMONIAIS]\n
+          - Não Configuração do Dano Moral, Inexistência de Desvio Produtivo.\n
+          \n
+          [PRIORIDADE 6 - MÉRITO: CONSECTÁRIOS LEGAIS (Final da Peça)]\n
+          - Correção Monetária, Juros de Mora, Parâmetros da Lei 14.905/2024, Honorários Advocatícios.\n
+          \n
+          === LISTA DE TESES PARA ORDENAR ===\n
+          {lista_texto}
+          """,
+        +"instrucao": "Você é um organizador técnico de peças jurídicas. Reordene os IDs segundo a hierarquia processual exata. Retorne APENAS o JSON.",
+        +"saida": "Retorne ESTRITAMENTE um JSON no seguinte formato: { "ordem_estrategica": [id1, id2, id3...] } CRÍTICO: NÃO omita nenhum ID e não insira IDs novos.",
+        +"empresa": "CVP",
+        +"identificador": "ordenarTesesViaIa",
+        +"created_at": "2026-09-17 09:09:46.187",
+        +"updated_at": "2026-09-17 09:09:46.187",
+      },
+      {#4452
+        +"id": "8",
+        +"prompt": """
+          Atue como um assistente jurídico sênior.\n
+          Leia o texto da Petição Inicial abaixo e crie um resumo direto e objective em EXATAMENTE 2 parágrafos.\n
+          - O primeiro parágrafo deve conter a síntese dos fatos (a história do que o autor alega que aconteceu).\n
+          - O segundo parágrafo deve conter os fundamentos jurídicos principais e os pedidos finais.\n
+          \n
+          TEXTO DA PETIÇÃO INICIAL:\n
+          {texto_peticao}
+          """,
+        +"instrucao": "Você é um assistente jurídico objetivo. Seu resumo deve conter estritamente o texto final, sem introduções como "Aqui está o resumo".",
+        +"saida": "Retorne estritamente em EXATAMENTE 2 parágrafos o resumo solicitado.",
+        +"empresa": "CVP",
+        +"identificador": "SinteseIa",
+        +"created_at": "2026-09-17 09:11:23.097",
+        +"updated_at": "2026-09-17 09:11:23.097",
+      },
+      {#4464
+        +"id": "9",
+        +"prompt": """
+          Você atuará como um revisor jurídico implacável na limpeza de documentos de defesa.\n
+          Abaixo está a estrutura de um documento dividida por parágrafos.\n
+          \n
+          SUA TAREFA: Avaliar EXCLUSIVAMENTE os itens do tipo 'paragrafo' e definir de forma booleana se devem ser suprimidos (suprimir: true) ou mantidos (suprimir: false).\n
+          \n
+          === REGRAS PARA SUPRIMIR (suprimir: true) - CORTE SEM DÓ ===\n
+          - OBRIGATORIAME: Suprima SEMPRE títulos como 'IV – CONSIDERAÇÕES', 'CONSIDERAÇÕES FINAIS', 'CONCLUSÃO' e TODO o texto argumentativo que vier abaixo deles.\n
+          - Toda a 'encheção de linguiça' jurídica e institucional que os advogados já conhecem.\n
+          - Explicações sobre a comercialização e contratação do seguro (ex: 'Cabe informar que a comercialização...', 'A contratação ocorre mediante apresentação...').\n
+          - Defesas teóricas contra venda casada e elogios ao produto (ex: 'o cliente foi beneficiado ao adquirir o produto', 'diminui o risco de inadimplência...').\n
+          - Regras abstratas de cancelamento, Condições Gerais, 'Regime Financeiro' ou 'legítimo interesse do cliente'.\n
+          - Informações sobre canais de atendimento (ex: 'A CAIXA disponibiliza amplo acesso...', 'Central de Serviços').\n
+          - Alegações de que 'não há conduta irregular por parte da Seguradora' ou 'não há o que se falar em desconhecimento'.\n
+          \n
+          === REGRAS PARA MANTER (suprimir: false) - NUNCA APAGUE ===\n
+          1. DADOS DO CASO CONCRETO: Nomes, CPFs, apólices, datas específicas, número de protocolos (ex: 'solicitação nº 180708600717'), registros de sistemas internos (ex: 'sistema SAP', 'estorno').\n
+          2. PONTES PARA IMAGENS: Frases curtas que introduzem telas (ex: 'segue tabela', 'possui as seguintes coberturas:', 'telas abaixo').\n
+          3. Títulos de seções factuais (ex: 'I - DADOS DO CONTRATO', 'DOS FATOS'). ATENÇÃO: NUNCA mantenha títulos de 'CONSIDERAÇÕES' ou 'CONCLUSÃO'.\n
+          \n
+          === PARÁGRAFOS PARA ANÁLISE ===\n
+          {contexto_para_ia}
+          """,
+        +"instrucao": "Você é um sistema de filtragem de textos rigoroso. Retorne APENAS o objeto JSON solicitado, sem markdown (```json).",
+        +"saida": """
+          RETORNE ESTRITAMENTE UM OBJETO JSON VALIDO NESTE FORMATO:\n
+          {\n
+            "analise_paragrafos": [\n
+              {"id_analise": "0_0", "suprimir": false},\n
+              {"id_analise": "0_1", "suprimir": true}\n
+            ]\n
+          }
+          """,
+        +"empresa": "CVP",
+        +"identificador": "InformacoesTecnicasIa",
+        +"created_at": "2026-09-17 09:12:38.450",
+        +"updated_at": "2026-09-17 09:12:38.450",
+      },
+      {#4465
+        +"id": "10",
+        +"prompt": """
+          Atue como um advogado sênior especialista em contencioso estratégico.\n
+          Abaixo estão os blocos de texto originais que compõem UMA tese de defesa, além dos fatos reais do processo.\n
+          Sua tarefa: Enriquecer essa tese inserindo novos parágrafos persuasivos gerados por você.\n
+          \n
+          === REGRAS OBRIGATÓRIAS DE CONTEÚDO E FORMATO ===\n
+          1. NORMAS PARA CERTIFICADOS E CONTRATOS:\n
+             - Ao mencionar a contratação no texto que você gerar (tipo 'ia'), faça referência genérica/introdução à listagem de certificados (ex: 'conforme detalhado na lista de certificados abaixo').\n
+             - É ESTRITAMENTE PROIBIDO gerar parágrafos que resumam ou fundam os números dos certificados, vigências e valores em texto corrido numa única frase longa.\n
+             - NÃO altere, omita ou substitua os blocos originais que contêm a listagem dos certificados.\n
+          \n
+          2. INSTRUÇÕES DE ESTRUTURAÇÃO:\n
+             - Use as informações da 'Petição Inicial' e do 'Subsídio do Cliente' para conectar a tese genérica ao CASO CONCRETO.\n
+             - Você pode adicionar parágrafos no INÍCIO (como introdução factual), no MEIO (como ponte lógica) ou no FINAL (como arremate prático).\n
+             - Avalie o melhor local e a quantidade ideal (1 a 3 parágrafos novos no total) para deixar a defesa implacável.\n
+          \n
+          3. REGRAS DO RETORNO:\n
+             - Para manter os textos originais, use 'tipo': 'original' e passe o 'indice'. VOCÊ NÃO PODE OMITIR NENHUM BLOCO ORIGINAL.\n
+             - Para inserir seus novos parágrafos, use 'tipo': 'ia' e passe o texto em 'texto'.\n
+          \n
+          === RESUMO DA PETIÇÃO INICIAL ===\n
+          {sintese_limpa}\n
+          \n
+          === SUBSÍDIO DO CLIENTE (SEGURADORA) ===\n
+          {texto_subsidio}\n
+          \n
+          === BLOCOS ORIGINAIS DA TESE ===\n
+          {blocos_tese}
+          """,
+        +"instrucao": "Você é um advogado estrategista. Retorne APENAS o JSON estruturando a tese, usando os fatos do caso para criar argumentos sem sintetizar listagens de certificados em texto corrido.",
+        +"saida": """
+          Retorne ESTRITAMENTE um objeto JSON com a chave 'sequencia_final', contendo a ordem exata de montagem da tese.\n
+          Exemplo do formato esperado:\n
+          {\n
+            "sequencia_final": [\n
+              {"tipo": "ia", "texto": "Parágrafo introdutório conectando ao caso real..."},\n
+              {"tipo": "original", "indice": 0},\n
+              {"tipo": "original", "indice": 1},\n
+              {"tipo": "ia", "texto": "Argumento subsidiário com os fatos da seguradora..."},\n
+              {"tipo": "original", "indice": 2}\n
+            ]\n
+          }
+          """,
+        +"empresa": "CVP",
+        +"identificador": "melhorarTeseIa",
+        +"created_at": "2026-09-17 09:13:28.733",
+        +"updated_at": "2026-09-17 09:13:28.733",
+      },
+      {#4466
+        +"id": "11",
+        +"prompt": """
+          Atue como um Advogado Sênior especialista em contestação e Direito Securitário.\n
+          Sua tarefa é redigir a seção "DA CONCLUSÃO" de uma contestação jurídica.\n
+          \n
+          === DIRETRIZES DE ESTILO (MUITO IMPORTANTE) ===\n
+          1. SEJA OBJETIVO E DIRETO. Não crie parágrafos massivos ou "textões". Vá direto ao ponto, resumindo a ideia principal em frases concisas.\n
+          2. O texto deve soar como um fechamento padrão de peça processual, mas incorporando brevemente os dados-chave do caso (ex: Nome do autor, número da apólice, certificado). Não reconte a história inteira.\n
+          3. DIVIDA O TEXTO em cerca de 4 a 5 parágrafos curtos, utilizando duas quebras de linha (\n\n) entre eles.\n
+          \n
+          === ESTRUTURA DOS PARÁGRAFOS (Seja Breve) ===\n
+          - Parágrafo 1 (Síntese e Regularidade): \n
+          Inicie com "Diante de todo o exposto...". Confirme brevemente a regularidade da contratação (cite o nome do autor e o nº do certificado/apólice) e afirme que não há provas da alegação da inicial (ex: venda casada), destacando o descumprimento do art. 373, I, do CPC pelo autor.\n
+          \n
+          - Parágrafo 2 (Dano Material / Devolução Simples): \n
+          Destaque a ausência de má-fé da Seguradora. Afirme que a cobrança foi legítima, afastando a repetição em dobro, e defenda que eventual devolução deve ocorrer na forma simples, conforme jurisprudência do STJ.\n
+          \n
+          - Parágrafo 3 (Danos Morais): \n
+          Afaste o dano moral por ausência de ato ilícito, nexo causal e lesão a direitos da personalidade. Pontue que, na pior das hipóteses, trata-se de mero aborrecimento contratual.\n
+          \n
+          - Parágrafo 4 (Consectários Legais - Lei 14.905/2024): \n
+          Aponte que, em caso de eventual condenação, os consectários devem observar os parâmetros da Lei nº 14.905/2024, com incidência de juros a partir da citação (ou evento danoso) e correção do dano moral a partir do arbitramento (Súmula 362/STJ), vedada a cumulação de índices.\n
+          \n
+          - Parágrafo 5 (Pedidos Finais): \n
+          Requeira a TOTAL IMPROCEDÊNCIA da ação. Subsidiariamente (em caso de condenação), requeira a devolução simples e a limitação do dano moral a um valor módico (sugira "no máximo R$ 1.000,00"). Requeira ainda a condenação em custas e honorários.\n
+          \n
+          === DADOS DE ENTRADA ===\n
+          1. TESES ATIVAS PARA O CASO:\n
+          {lista_teses_texto}\n
+          \n
+          2. SUBSÍDIO DO CLIENTE (DADOS DO CASO PARA EXTRAIR APENAS O ESSENCIAL):\n
+          {subsidio_formatado}\n
+          \n
+          3. SÍNTESE DA INICIAL:\n
+          {texto_peticao_formatado}
+          """,
+        +"instrucao": "Você é um assistente jurídico sênior focado em concisão. Responda estritamente em JSON usando a chave "conclusao", separando os parágrafos curtos por \n\n.",
+        +"saida": """
+          === REGRAS DE FORMATAÇÃO DO RETORNO ===\n
+          - Retorne ESTRITAMENTE um objeto JSON válido.\n
+          - NÃO adicione formatação markdown como ```json ... ``` no retorno.\n
+          - Estrutura esperada:\n
+          {\n
+            "conclusao": "Diante de todo o exposto, verifica-se que a contratação... [NOME / CERTIFICADO].\n\nVerifica-se, ainda, a ausência de má-fé...\n\nDa mesma forma, não há falar em indenização...\n\nPor fim, os consectários legais...\n\nDiante do exposto, requer a total improcedência..."\n
+          }
+          """,
+        +"empresa": "CVP",
+        +"identificador": "gerarConclusaoIa",
+        +"created_at": "2026-09-17 09:14:09.500",
+        +"updated_at": "2026-09-17 09:14:09.500",
+      },
+      {#4467
+        +"id": "12",
+        +"prompt": """
+          Atue como um advogado sênior especialista em direito contencioso civil e securitário.\n
+          Abaixo está o conjunto de teses defensivas selecionadas para o processo.\n
+          \n
+          Sua tarefa: Escrever uma TESE COMPLEMENTAR de contestação.\n
+          \n
+          === REGRAS DE TÍTULO E ESTRUTURA ===\n
+          1. TÍTULO DO TÓPICO: Crie um TÍTULO PRINCIPAL EM CAIXA ALTA sintetizando os pontos abordados. O título deve começar obrigatoriamente com a estrutura 'DA...' ou 'DO...' e conectar os pontos (Ex: 'DA INEFICÁCIA DA ALEGAÇÃO DE VENDA CASADA E DA REGULARIDADE DA CONTRATAÇÃO'). NÃO coloque numeração romana no título (o sistema colocará dinamicamente).\n
+          2. AVISO DE PLURALIDADE: Se for pertinente levantar mais de um ponto de defesa complementar, elabore o texto deixando bem claro na introdução que estão sendo suscitados dois ou mais pontos centrais.\n
+          3. SUBTÍTULOS/SUBTESES (se houver mais de um ponto): Use subtítulos como 'a) ...', 'b) ...'.\n
+          4. FUNDAMENTAÇÃO LEGAL: Fundamente com artigos de leis atuais (CPC, Código Civil, CDC, Lei nº 14.905/2024, etc.).\n
+          5. FORMATAÇÃO: Separe o título gerado, o aviso inicial e cada parágrafo com quebras duplas de linha.\n
+          \n
+          === TESES BASE DO PROCESSO ===\n
+          {texto_tese}
+          """,
+        +"instrucao": "Você é um advogado especialista em contestação. Retorne APENAS o objeto JSON com o título e o texto da tese.",
+        +"saida": """
+          Retorne ESTRITAMENTE um objeto JSON no formato:\n
+          {\n
+            "titulo": "TÍTULO DO TÓPICO EM CAIXA ALTA AQUI",\n
+            "paragrafo": "texto completo do desenvolvimento da tese aqui"\n
+          }
+          """,
+        +"empresa": "CVP",
+        +"identificador": "gerarParagrafoComplementarIa",
+        +"created_at": "2026-09-17 09:59:44.960",
+        +"updated_at": "2026-09-17 09:59:44.960",
+      },
+      {#4468
+        +"id": "13",
+        +"prompt": "gpt-5.6-luna",
+        +"instrucao": "Configuração técnica: nome do modelo. Não é um prompt de IA.",
+        +"saida": "",
+        +"empresa": "CVP",
+        +"identificador": "config_modelo",
+        +"created_at": "2026-09-17 09:59:45.533",
+        +"updated_at": "2026-09-17 09:59:45.533",
+      },
+    ],
+  }
+
 
