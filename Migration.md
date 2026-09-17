@@ -40,6 +40,9 @@ DB::select("
     WHERE TABLE_NAME = 'auditoria_aut_dossie'
 "); \\
 
+🚩 LISTAR USUÁRIOS \
+DB::table('users')->get() \
+DB::select("SELECT * FROM users WHERE usuario LIKE '%Gabriel.martins%'") 
 
 
 
