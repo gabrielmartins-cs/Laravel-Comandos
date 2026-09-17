@@ -15,7 +15,7 @@ php artisan make:model ConfiguracaoGeralInteligenciaArtificial \
 ]);  \
 
 🚩 exibir tabelas: \
-DB::table('prompt_ia')->get(); \
+DB::table('prompt_ia_')->get(); \
 DB::table('dossie_processamentos')->get(); \
 DB::table('palavras_teses')->get(); \
 DB::table('ia_consumos')->get(); \
@@ -27,6 +27,19 @@ DB::table('auditoria_aut_dossie')->get(); \
 DB::table('auditoria_aut_dossie')->limit(10)->get()   \
 DB::table('auditoria_aut_dossie') ->orderBy('id', 'desc') ->limit(10) ->get() \
 DB::select("SELECT TOP 10 * FROM auditoria_aut_dossie ORDER BY id DESC") \
+
+
+🚩 exibir ESTRUTURA DA TABELA: \
+DB::select("
+    SELECT 
+        COLUMN_NAME AS Coluna, 
+        DATA_TYPE AS Tipo, 
+        CHARACTER_MAXIMUM_LENGTH AS TamanhoMaximo, 
+        IS_NULLABLE AS AceitaNulo
+    FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_NAME = 'auditoria_aut_dossie'
+"); \\
+
 
 
 
