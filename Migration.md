@@ -14,3 +14,13 @@ php artisan make:model ConfiguracaoGeralInteligenciaArtificial
     'empresa' => 'CVP',
     'identificador' => 'processamentoIa_teses'
 ]);
+
+
+DB::table('prompt_ia')->get();
+DB::table('dossie_processamentos')->get();
+DB::table('palavras_teses')->get();
+DB::table('ia_consumos')->get();
+DB::table('teses_formatadas')->get();
+DB::table('auditoria_aut_dossie')->get();
+
+
