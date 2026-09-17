@@ -24,7 +24,7 @@ DB::table('teses_formatadas')->get();
 DB::table('auditoria_aut_dossie')->get();
 
 
-🚩 exibir 10 casos: 
+🚩 exibir 10 casos: \
 DB::table('auditoria_aut_dossie')->limit(10)->get()   \
 DB::table('auditoria_aut_dossie') ->orderBy('id', 'desc') ->limit(10) ->get() \
 DB::select("SELECT TOP 10 * FROM auditoria_aut_dossie ORDER BY id DESC") \
