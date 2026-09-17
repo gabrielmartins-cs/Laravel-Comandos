@@ -46,6 +46,8 @@ DB::select("SELECT * FROM users WHERE usuario LIKE '%Gabriel.martins%'")
 
 🚩 SALVAR O RESULTADO DO COMANDO DENTRO DE UMA PASTA EM UM JSON \
 file_put_contents(resource_path('views/dossie/prompts.json'), DB::table('prompt_ia')->get()->toJson(JSON_PRETTY_PRINT)) \
+file_put_contents(public_path('automacao_dossie/prompts.json'), DB::table('prompt_ia_')->get()->toJson(JSON_PRETTY_PRINT)) \
+
 
 
 
