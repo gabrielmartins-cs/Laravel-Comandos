@@ -15,7 +15,7 @@ php artisan make:model ConfiguracaoGeralInteligenciaArtificial \
 ]);  \
 
 🚩 exibir tabelas: \
-DB::table('prompt_ia_')->get(); \
+DB::table('prompt_ia')->get(); \
 DB::table('dossie_processamentos')->get(); \
 DB::table('palavras_teses')->get(); \
 DB::table('ia_consumos')->get(); \
@@ -43,6 +43,10 @@ DB::select("
 🚩 LISTAR USUÁRIOS \
 DB::table('users')->get() \
 DB::select("SELECT * FROM users WHERE usuario LIKE '%Gabriel.martins%'") 
+
+🚩 SALVAR O RESULTADO DO COMANDO DENTRO DE UMA PASTA EM UM JSON \
+file_put_contents(resource_path('views/dossie/prompts.json'), DB::table('prompt_ia')->get()->toJson(JSON_PRETTY_PRINT)) \
+
 
 
 
