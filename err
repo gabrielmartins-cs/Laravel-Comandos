@@ -1,0 +1,25 @@
+Criei uma nova rota:     Route::get('/config-ia', [DossieProcessamentoController::class, 'Configurar'])->name('configuracoes.gerais');
+
+Criei minha função: <?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\ConfiguracaoGeralInteligenciaArtificial;
+
+class ConfiguracoesGeraisIaController extends Controller
+{
+    public function Configurar() {}
+}
+
+chamei em outro lugar com um botão:      <a href="{{ route('configuracoes.gerais') }}" class="btn btn-sm btn-info mr-2 shadow-sm">
+                    <i class="fas fa-history mr-1"></i> Configurações Gerais de I.A
+                </a>
+
+deu erro: BadMethodCallException
+Method App\Http\Controllers\DossieProcessamentoController::Configurar does not exist.
+http://127.0.0.1:8000/config-ia
+Hide solutions
+Bad Method Call
+Did you mean App\Http\Controllers\DossieProcessamentoController::authorizeForUser() ?
+
