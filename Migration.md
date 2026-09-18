@@ -48,6 +48,11 @@ DB::select("SELECT * FROM users WHERE usuario LIKE '%Gabriel.martins%'")
 file_put_contents(resource_path('views/dossie/prompts.json'), DB::table('prompt_ia')->get()->toJson(JSON_PRETTY_PRINT)) \
 file_put_contents(public_path('automacao_dossie/prompts.json'), DB::table('prompt_ia_')->get()->toJson(JSON_PRETTY_PRINT)) \
 
+🚩TODAS AS TESES DO BANCO \
+file_put_contents(public_path('automacao_dossie/todas_as_teses_do_banco.json'), DB::table('teses_formatadas')->get()->toJson(JSON_PRETTY_PRINT)) \
+
+
+
 
 
 
