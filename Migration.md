@@ -52,6 +52,12 @@ file_put_contents(public_path('automacao_dossie/prompts.json'), DB::table('promp
 file_put_contents(public_path('automacao_dossie/todas_as_teses_do_banco.json'), DB::table('teses_formatadas')->get()->toJson(JSON_PRETTY_PRINT)) \
 
 
+🚩CRIAR UM SERVIDOR EM OUTRA PORTA \
+php artisan serve --port=8081 \
+🚩CRIAR UM HOST NA REDE \
+php artisan serve --host=0.0.0.0
+
+
 
 
 
