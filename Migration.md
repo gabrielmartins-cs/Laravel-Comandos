@@ -1,3 +1,7 @@
+
+🚩 COMANDO CRIAR UMA MIGRATION \
+php artisan make:migration incluir_coluna_na_tabela_dossie_processamentos
+
 🚩 COMANDO  PARA RODAR A MIGRATION \
 php artisan migrate --path=database/migrations/2026_09_16_152508_create_tabela_configuracoes_gerais_e_prompt_ia.php \
 php artisan migrate --path=database/migrations/2026_09_16_173149_alter_tabela_prompt_ia.php \
