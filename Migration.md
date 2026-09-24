@@ -67,6 +67,10 @@ php artisan serve --host=0.0.0.0
 🚩MATA AS TAREFAS DO PHP \
 taskkill /F /IM php.exe  \
 
+🚩ALTERAR PARA OUTRA BRANCH \
+git fetch origin  \
+git checkout novas_empresas  \
+
 
 
 
