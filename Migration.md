@@ -23,6 +23,7 @@ php artisan make:controller NomeDoController \
 
 🚩 exibir tabelas: \
 DB::table('prompt_ia')->get(); \
+DB::table('gabarito_processamento_ia')->get(); \
 DB::table('dossie_processamentos')->get(); \
 DB::table('palavras_teses')->get(); \
 DB::table('ia_consumos')->get(); \
