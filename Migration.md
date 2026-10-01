@@ -25,9 +25,9 @@ php artisan make:controller NomeDoController \
 DB::table('prompt_ia')->get(); \
 DB::table('gabarito_processamento_ia')->get(); \
 DB::table('dossie_processamentos')->get(); \
-DB::table('palavras_teses')->get(); \
+DB::table('palavras_teses')->limit(10)->get() \
 DB::table('ia_consumos')->get(); \
-DB::table('teses_formatadas')->get(); \
+DB::table('teses_formatadas')->limit(10)->get()\
 DB::table('auditoria_aut_dossie')->get(); \
 
 
@@ -58,6 +58,9 @@ file_put_contents(public_path('automacao_dossie/prompts.json'), DB::table('promp
 
 🚩TODAS AS TESES DO BANCO \
 file_put_contents(public_path('automacao_dossie/todas_as_teses_do_banco.json'), DB::table('teses_formatadas')->get()->toJson(JSON_PRETTY_PRINT)) \
+
+🚩PEGAR SÓ AS TESES DA CVP \
+file_put_contents(public_path('automacao_dossie/todas_as_teses_do_banco.json'), DB::table('teses_formatadas')->whereIn('numero_tese', DB::table('palavras_teses')->where('empresa', 'CVP')->pluck('numero_tese'))->get()->toJson(JSON_PRETTY_PRINT));
 
 
 🚩CRIAR UM SERVIDOR EM OUTRA PORTA \
