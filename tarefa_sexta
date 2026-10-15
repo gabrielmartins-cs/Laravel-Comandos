@@ -1,0 +1,32 @@
+🚩 CONTROLLERS
+DossieAgentesIaController.php
+DossieConfigIaController.php
+DossieConfigWordxController.php
+DossieController.php
+DossieCriadoController.php
+DossieFilaController.php
+DossieProcessamentoController.php
+DossieProcessarCLIController.php
+DossieTesesController.php
+
+🚩 MODELS
+AuditoriaAutDossie
+IaConsumo
+ConfiguracaoGeralInteligenciaArtificial
+PalavrasTeses
+TeseFormatada
+
+🚩 TABELAS
+auditoria_aut_dossie  -> dossie_auditoria
+ia_consumos ->dossie_consumo_ia
+prompt_ia ->dossie_
+gabarito_processamento_ia ->dossie_
+dossie_processamentos ->dossie_
+palavras_teses ->dossie_
+teses_formatadas ->dossie_
+regras_empresa ->dossie_
+
+
+1° Recriar todas as tabelas com o prefixo Dossie e exportar os dados; 
+
+
