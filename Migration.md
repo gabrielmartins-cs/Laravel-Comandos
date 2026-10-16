@@ -29,6 +29,8 @@ DB::table('palavras_teses')->limit(10)->get() \
 DB::table('ia_consumos')->get(); \
 DB::table('teses_formatadas')->limit(10)->get()\
 DB::table('auditoria_aut_dossie')->get(); \
+DB::table('regras_empresa')->get(); \
+
 
 
 🚩 exibir 10 casos: \
