@@ -32,6 +32,17 @@ DB::table('auditoria_aut_dossie')->get(); \
 DB::table('regras_empresa')->get(); \
 
 
+Agora o nome das tabelas é: 
+
+dossie_trilha_auditoria
+dossie_consumo_ia
+dossie_agentes_ia_por_empresa
+dossie_gabarito_e_variaveis
+dossie_casos_processados
+dossie_configuracoes_das_teses
+dossie_teses
+dossie_regras_por_empresa
+
 
 🚩 exibir 10 casos: \
 DB::table('auditoria_aut_dossie')->limit(10)->get()   \
