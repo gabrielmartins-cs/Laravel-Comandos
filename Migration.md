@@ -22,14 +22,14 @@ php artisan make:controller NomeDoController \
 ]);  \
 
 🚩 exibir tabelas: \
-DB::table('prompt_ia')->get(); \
-DB::table('gabarito_processamento_ia')->get(); \
-DB::table('dossie_processamentos')->get(); \
-DB::table('palavras_teses')->limit(10)->get() \
-DB::table('ia_consumos')->get(); \
-DB::table('teses_formatadas')->limit(10)->get()\
-DB::table('auditoria_aut_dossie')->get(); \
-DB::table('regras_empresa')->get(); \
+DB::table('dossie_trilha_auditoria')->get(); \
+DB::table('dossie_consumo_ia')->get(); \
+DB::table('dossie_agentes_ia_por_empresa')->get(); \
+DB::table('dossie_gabarito_e_variaveis')->limit(10)->get() \
+DB::table('dossie_casos_processados')->get(); \
+DB::table('dossie_configuracoes_das_teses')->limit(10)->get()\
+DB::table('dossie_teses')->get(); \
+DB::table('dossie_regras_por_empresa')->get(); \
 
 
 Agora o nome das tabelas é: 
