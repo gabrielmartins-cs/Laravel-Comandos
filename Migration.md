@@ -72,9 +72,8 @@ file_put_contents(public_path('automacao_dossie/prompts.json'), DB::table('promp
 🚩TODAS AS TESES DO BANCO \
 file_put_contents(public_path('automacao_dossie/todas_as_teses_do_banco.json'), DB::table('teses_formatadas')->get()->toJson(JSON_PRETTY_PRINT)) \
 
-🚩PEGAR SÓ AS TESES DA CVP \
-file_put_contents(public_path('automacao_dossie/todas_as_teses_do_banco.json'), DB::table('teses_formatadas')->whereIn('numero_tese', DB::table('palavras_teses')->where('empresa', 'CVP')->pluck('numero_tese'))->get()->toJson(JSON_PRETTY_PRINT));
-
+🚩PEGAR SÓ AS TESES DA CSH2 \
+file_put_contents(public_path('automacao_dossie/teses_da_csh2.json'), DB::table('dossie_teses')->whereIn('numero_tese', DB::table('dossie_configuracoes_das_teses')->where('empresa', 'CSH2')->pluck('numero_tese'))->get()->toJson(JSON_PRETTY_PRINT));
 
 🚩CRIAR UM SERVIDOR EM OUTRA PORTA \
 php artisan serve --port=8081 \
